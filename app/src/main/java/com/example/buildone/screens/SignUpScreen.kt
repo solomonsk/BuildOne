@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.buildone.components.ButtonComponent
 import com.example.buildone.components.CheckBox
@@ -30,10 +31,12 @@ import com.example.buildone.components.DividerTextComponent
 import com.example.buildone.components.NormalTextComponent
 import com.example.buildone.components.PasswordTextInputs
 import com.example.buildone.components.TextInputs
+import com.example.buildone.data.LoginViewModel
+import com.example.buildone.data.UIEvent
 import com.example.buildone.navigation.Screen
 
 @Composable
-fun SignUpScreen(navController: NavController) {
+fun SignUpScreen(navController: NavController,loginViewModel: LoginViewModel = viewModel()) {
 
     Surface(
         modifier = Modifier
@@ -47,13 +50,21 @@ fun SignUpScreen(navController: NavController) {
             Spacer(Modifier.height(20.dp))
             NormalTextComponent("Create an account", 30, FontWeight.Bold)
             Spacer(Modifier.height(20.dp))
-            TextInputs("Name", Icons.Outlined.Person)
+            TextInputs("Name", Icons.Outlined.Person, onTextSelected = {
+                loginViewModel.onEvent(UIEvent.NameChanged(it))
+            })
             Spacer(Modifier.height(15.dp))
-            TextInputs("Username", Icons.Filled.Person)
+            TextInputs("Username", Icons.Filled.Person, onTextSelected = {
+                loginViewModel.onEvent(UIEvent.UserNameChanged(it))
+            })
             Spacer(Modifier.height(15.dp))
-            TextInputs("E-mail ID", Icons.Filled.Email)
+            TextInputs("E-mail ID", Icons.Filled.Email, onTextSelected = {
+                loginViewModel.onEvent(UIEvent.EmailChanged(it))
+            })
             Spacer(Modifier.height(15.dp))
-            PasswordTextInputs("Password", Icons.Filled.Lock)
+            PasswordTextInputs("Password", Icons.Filled.Lock, onTextSelected = {
+                loginViewModel.onEvent(UIEvent.PasswordChanged(it))
+            })
             Spacer(Modifier.height(15.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),

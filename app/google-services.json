@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "591984158280",
+    "project_id": "buildone-f8a44",
+    "storage_bucket": "buildone-f8a44.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:591984158280:android:555b78e1610072b7621a7d",
+        "android_client_info": {
+          "package_name": "com.example.buildone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqeQ1MvY686-P5axNUgTElb-bdYb1sKKs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -72,7 +72,7 @@ fun NormalTextComponent(text: String, font: Int, fontWeight: FontWeight) {
 }
 
 @Composable
-fun TextInputs(label: String, leadingIcon: ImageVector) {
+fun TextInputs(label: String, leadingIcon: ImageVector,onTextSelected: (String) -> Unit) {
 
     var textValue by remember { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
@@ -83,7 +83,8 @@ fun TextInputs(label: String, leadingIcon: ImageVector) {
         },
         label = { Text(text = label) },
         value = textValue,
-        onValueChange = { textValue = it },
+        onValueChange = { textValue = it
+                        onTextSelected(it )},
         colors = TextFieldDefaults.colors(
             focusedContainerColor = custom1,
             unfocusedContainerColor = WhiteColor,
@@ -98,7 +99,7 @@ fun TextInputs(label: String, leadingIcon: ImageVector) {
 }
 
 @Composable
-fun PasswordTextInputs(label: String, leadingIcon: ImageVector) {
+fun PasswordTextInputs(label: String, leadingIcon: ImageVector,onTextSelected: (String) -> Unit) {
 
     var password by remember { mutableStateOf("") }
     var passVisible by remember { mutableStateOf(false) }
@@ -108,7 +109,8 @@ fun PasswordTextInputs(label: String, leadingIcon: ImageVector) {
         modifier = Modifier.fillMaxWidth(),
         label = { Text(text = label) },
         value = password,
-        onValueChange = { password = it },
+        onValueChange = { password = it
+                        onTextSelected(it)},
         colors = TextFieldDefaults.colors(
             focusedContainerColor = custom1,
             unfocusedContainerColor = WhiteColor,
@@ -185,12 +187,16 @@ fun ClickableTextComponent(
 }
 
 @Composable
-fun ButtonComponent(value: String, function: () -> Unit) {
+fun ButtonComponent(value: String,
+                    function: () -> Unit,
+//                    isEnabled : Boolean = false
+) {
 
     Button(
         onClick = {}, modifier = Modifier
             .fillMaxWidth()
-            .shadow(5.dp, shape = RoundedCornerShape(15.dp))
+            .shadow(5.dp, shape = RoundedCornerShape(15.dp)),
+//        enabled = isEnabled
     ) {
         Text(text = value, fontSize = 25.sp)
     }

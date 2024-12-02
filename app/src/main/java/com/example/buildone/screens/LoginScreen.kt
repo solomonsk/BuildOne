@@ -39,9 +39,9 @@ fun LoginScreen(navController: NavController) {
             Spacer(Modifier.height(20.dp))
             NormalTextComponent("Welcome back!!!", 30, FontWeight.Bold)
             Spacer(Modifier.height(130.dp))
-            TextInputs("E-mail or username", Icons.Filled.Email)
+            TextInputs("E-mail or username", Icons.Filled.Email, onTextSelected = {})
             Spacer(Modifier.height(15.dp))
-            PasswordTextInputs("Password", Icons.Filled.Lock)
+            PasswordTextInputs("Password", Icons.Filled.Lock, onTextSelected = {})
             Spacer(Modifier.height(15.dp))
             ClickableTextLoginComponent(
                 onNavigate = {
