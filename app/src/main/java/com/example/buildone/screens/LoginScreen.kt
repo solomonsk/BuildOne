@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.buildone.components.ButtonComponent
 import com.example.buildone.components.ClickableTextLoginComponent
@@ -22,10 +23,12 @@ import com.example.buildone.components.DividerTextComponent
 import com.example.buildone.components.NormalTextComponent
 import com.example.buildone.components.PasswordTextInputs
 import com.example.buildone.components.TextInputs
+import com.example.buildone.data.LoginViewModel
+import com.example.buildone.data.UIEvent
 import com.example.buildone.navigation.Screen
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(navController: NavController,loginViewModel: LoginViewModel = viewModel()) {
 
     Surface(
         modifier = Modifier
@@ -39,9 +42,15 @@ fun LoginScreen(navController: NavController) {
             Spacer(Modifier.height(20.dp))
             NormalTextComponent("Welcome back!!!", 30, FontWeight.Bold)
             Spacer(Modifier.height(130.dp))
-            TextInputs("E-mail or username", Icons.Filled.Email, onTextSelected = {})
+            TextInputs("E-mail or username",
+                Icons.Filled.Email,
+                onTextSelected = {},
+                errorStatus = false)
             Spacer(Modifier.height(15.dp))
-            PasswordTextInputs("Password", Icons.Filled.Lock, onTextSelected = {})
+            PasswordTextInputs("Password",
+                Icons.Filled.Lock,
+                onTextSelected = {},
+                errorStatus = false)
             Spacer(Modifier.height(15.dp))
             ClickableTextLoginComponent(
                 onNavigate = {
@@ -52,7 +61,11 @@ fun LoginScreen(navController: NavController) {
                 "Forgot my password",
             )
             Spacer(Modifier.height(30.dp))
-            ButtonComponent("Login") {
+            ButtonComponent(
+                "Login",
+                onButtonClicked = {loginViewModel.onEvent(UIEvent.RegisterButtonClicked)},
+                isEnabled = loginViewModel.validationPassed.value
+            ) {
                 navController.navigate(Screen.LoginScreen.route)
             }
             Spacer(Modifier.height(60.dp))

@@ -56,7 +56,9 @@ import com.example.buildone.ui.theme.custom
 import com.example.buildone.ui.theme.custom1
 
 @Composable
-fun NormalTextComponent(text: String, font: Int, fontWeight: FontWeight) {
+fun NormalTextComponent(text: String,
+                        font: Int,
+                        fontWeight: FontWeight) {
     Text(
         modifier = Modifier
             .fillMaxWidth(),
@@ -72,7 +74,10 @@ fun NormalTextComponent(text: String, font: Int, fontWeight: FontWeight) {
 }
 
 @Composable
-fun TextInputs(label: String, leadingIcon: ImageVector,onTextSelected: (String) -> Unit) {
+fun TextInputs(label: String,
+               leadingIcon: ImageVector,
+               onTextSelected: (String) -> Unit,
+               errorStatus : Boolean = false) {
 
     var textValue by remember { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
@@ -94,12 +99,16 @@ fun TextInputs(label: String, leadingIcon: ImageVector,onTextSelected: (String) 
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
         singleLine =true,
         maxLines = 1,
-        leadingIcon = { Icon(imageVector = leadingIcon, contentDescription = null) }
+        leadingIcon = { Icon(imageVector = leadingIcon, contentDescription = null) },
+        isError = !errorStatus
     )
 }
 
 @Composable
-fun PasswordTextInputs(label: String, leadingIcon: ImageVector,onTextSelected: (String) -> Unit) {
+fun PasswordTextInputs(label: String,
+                       leadingIcon: ImageVector,
+                       onTextSelected: (String) -> Unit,
+                       errorStatus : Boolean = false) {
 
     var password by remember { mutableStateOf("") }
     var passVisible by remember { mutableStateOf(false) }
@@ -132,27 +141,26 @@ fun PasswordTextInputs(label: String, leadingIcon: ImageVector,onTextSelected: (
                 }
             },
             visualTransformation = if (passVisible) VisualTransformation.None else PasswordVisualTransformation()
+        , isError = !errorStatus
         )
     }
 
 @Composable
-fun CheckBox() {
+fun CheckBox(onCheckedChange : (Boolean) -> Unit) {
     Row(
-
         verticalAlignment = Alignment.CenterVertically
     ) {
 
         var checked by remember { mutableStateOf(false) }
-
-        Checkbox(checked = checked, onCheckedChange = { checked = !checked })
+        Checkbox(checked = checked, onCheckedChange = { checked = !checked
+        onCheckedChange.invoke(it)})
     }
 }
 
 @Composable
-fun ClickableTextComponent(
-    value: String,
-    linkText: String,
-    hyperlinks: String
+fun ClickableTextComponent(value: String,
+                           linkText: String,
+                           hyperlinks: String
 ) {
 
     val annotatedString = buildAnnotatedString {
@@ -188,19 +196,20 @@ fun ClickableTextComponent(
 
 @Composable
 fun ButtonComponent(value: String,
-                    function: () -> Unit,
-//                    isEnabled : Boolean = false
+                    onButtonClicked: () -> Unit,
+                    isEnabled: Boolean,
+                    function: () -> Unit
 ) {
-
     Button(
-        onClick = {}, modifier = Modifier
+        onClick = {
+            onButtonClicked.invoke()
+        }, modifier = Modifier
             .fillMaxWidth()
             .shadow(5.dp, shape = RoundedCornerShape(15.dp)),
-//        enabled = isEnabled
+        enabled = isEnabled
     ) {
         Text(text = value, fontSize = 25.sp)
     }
-
 }
 
 @Composable
@@ -233,10 +242,9 @@ fun DividerTextComponent() {
 }
 
 @Composable
-fun ClickableTextLoginComponent(
-    onNavigate: () -> Unit,
-    value: String,
-    linkText: String
+fun ClickableTextLoginComponent(onNavigate: () -> Unit,
+                                value: String,
+                                linkText: String
 ) {
     val annotatedString = buildAnnotatedString {
         append(value)
